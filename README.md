@@ -1,5 +1,5 @@
 # Análisis Predictivo
-Curso de Instituto Teconológico de Buenos Aires (ITBA)
+Materia de la Licenciatura Analítica Empresarial y Social del Instituto Teconológico de Buenos Aires (ITBA)
 ## Examen
 + Dataset
 + Código
