@@ -8,5 +8,5 @@ Materia de la Licenciatura Analítica Empresarial y Social del Instituto Teconol
 + [Presentación](https://github.com/camicollado/Analisis-Predictivo/blob/a529af2d1fca44e9544c820c833a006e80d97717/Presentacio%CC%81n%20Apps%20en%20Google%20Play%20Store.pdf)
 ##  Competencia Kaggle
 + [Presentación](https://github.com/camicollado/Analisis-Predictivo/blob/main/Presentacio%CC%81n%20Kaggle.pdf)
-+ [Modelos]()
++ [Modelos](https://github.com/camicollado/Analisis-Predictivo/blob/main/Competencia_Kaggle.ipynb)
 + [Competencia](https://www.kaggle.com/competitions/ap-2022q1/leaderboard)
