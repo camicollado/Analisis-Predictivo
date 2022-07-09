@@ -11,5 +11,6 @@ Materia de la Licenciatura Analítica Empresarial y Social del Instituto Teconol
 + [Modelos](https://github.com/camicollado/Analisis-Predictivo/blob/main/Competencia_Kaggle.ipynb)
 + [Competencia](https://www.kaggle.com/competitions/ap-2022q1/leaderboard)
 ## Modelo predictivo (examen final)
-+[Presentación]
-+[Modelos]
++[Presentación]()
++[Modelos]()
++[Dataset]()
