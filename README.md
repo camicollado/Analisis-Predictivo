@@ -3,7 +3,7 @@ Materia de la Licenciatura Analítica Empresarial y Social del Instituto Teconol
 
 ## Modelo predictivo (examen final)
 + [Presentación]()
-+ [Modelos]()
++ [Modelos predictivos]()
 + [Dataset]()
 
 Otros scripts: [Limpieza del dataset](https://github.com/camicollado/Analisis-Predictivo/blob/c0953202fd073b19642bb744c4b826827492771f/GooglePlayStoreLimpieza.Rmd) y [EDA (actualizado)]()
