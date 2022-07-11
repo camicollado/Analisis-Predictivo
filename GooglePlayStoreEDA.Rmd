@@ -10,29 +10,43 @@ Importar librerias y el dataset limpio
 rm(list=ls())
 gc()
 
-setwd("/Users/camilacollado/Desktop/")
+setwd("/Users/camilacollado/Desktop/Análisis\ Predictivo/examen\ 1/")
 
 install.packages("tidyverse")
 install.packages("funModeling")
 library(reader)
-#library(funModeling)
 library(dplyr)
 
 df <- read.csv("GooglePlayStoreClean.csv")
 
-#df_status(df)
+```
+```{r}
+dim(df)
 ```
 
 Quitar Rating = 0 ya que no es un valor posible
 
 ```{r}
 df <- df %>% filter(Rating>0)
-#df_status(df)
 ```
+
+
+```{r}
+dim(df)
+```
+
+
+```{r}
+library(funModeling)
+df_status(df)
+```
+
 Seleccionar variables numericas para un nuevo dataset
 ```{r}
 df_num <- df %>% select(c(Rating, Rating.Count, Minimum.Installs, Maximum.Installs, Price, Size.mb))
 ```
+
+Borrar la columnna X
 ```{r}
 typeof(df$X)
 df <- df %>% select(-X)
@@ -75,21 +89,31 @@ Para ver la distribución del precio de las apps se excluyó el precio 0, debido
 price <- df_num %>% filter(Free==FALSE) %>% select(Price)
 ```
 
-BOXPLOTS
+BOXPLOTS 
 
 ```{r}
 par(mfrow=c(2,4), mar=c(1,1,1,1))
-boxplot(df_num$Rating , col = "light  blue", main = "Rating (Target)")
+boxplot(df_num$Rating , col = "light  blue", main = "Rating")
 boxplot(df_num$Rating.Count , col = "light blue", main = "Rating Count")
-boxplot(df_num$Minimum.Installs , col = "light blue", main = "Minimum Installs")
-boxplot(df_num$Maximum.Installs , col = "light blue", main = "Maximum Installs")
 boxplot(price, col = "light blue", main = "Price (USD)", log = "y")
 boxplot(df_num$Size.mb , col = "light blue", main = "Size (MB)")
 boxplot(df_num$ReleasedDA , col = "light blue", main = "Released days ago")
 boxplot(df_num$Last.UpdatedDA, col = "light blue", main = "Last Updated days ago")
-
-
+boxplot(df_num$Minimum.Installs , col = "light blue", main = "Minimum Installs")
+boxplot(df_num$Maximum.Installs, col = "light blue", main = "Maximum Installs")
 ```
+Boxplots (variable target y para la predicción)
+
+```{r}
+par(mfrow=c(2,3), mar=c(1,1,1,1))
+boxplot(df_num$Rating , col = "light  green", main = "Rating")
+boxplot(price, col = "light blue", main = "Price (USD)", log = "y")
+boxplot(df_num$Size.mb , col = "light blue", main = "Size (MB)")
+boxplot(df_num$ReleasedDA , col = "light blue", main = "Released days ago")
+boxplot(df_num$Last.UpdatedDA, col = "light blue", main = "Last Updated days ago")
+boxplot(df_num$Maximum.Installs, col = "light blue", main = "Maximum Installs")
+```
+
 HISTOGRAMAS
 
 ```{r}
@@ -103,6 +127,27 @@ hist(df_num$Size.mb , col = "light blue", main = "Size (MB)")
 hist(df_num$ReleasedDA , col = "light blue", main = "Released days ago")
 hist(df_num$Last.UpdatedDA, col = "light blue", main = "Last Updated days ago")
 ```
+Histogramas (variable target y para la predicción)
+
+```{r}
+par(mfrow=c(2,3), mar=c(2,2,2,2))
+hist(df_num$Rating , col = "light  green", main = "Rating")
+hist(df_num$Maximum.Installs , col = "light blue", main = "Maximum Installs")
+hist(price$Price, col = "light blue", main = "Price (USD)")
+hist(df_num$Size.mb , col = "light blue", main = "Size (MB)")
+hist(df_num$ReleasedDA , col = "light blue", main = "Released days ago")
+hist(df_num$Last.UpdatedDA, col = "light blue", main = "Last Updated days ago")
+```
+
+Maximum Installs
+
+```{r}
+par(mfrow=c(1,2), mar=c(2,2,2,2))
+boxplot(df_num$Maximum.Installs, col = "light blue", main = "Maximum Installs")
+hist(df_num$Maximum.Installs , col = "light blue", main = "Maximum Installs")
+```
+
+
 Distribución de VARIBLES CATEGORICAS: gráfico de barras
 
 Lógicas
@@ -172,6 +217,7 @@ Pocas categorias: Content Rating
 
 ```{r}
 require(forcats)
+library(ggplot2)
 ggplot(df, aes(y=fct_infreq(Content.Rating))) + 
   geom_bar(colour="black",fill="#9ECFE0") +
   theme_classic()+
@@ -209,6 +255,10 @@ ggplot(df , aes(y=fct_infreq(Category))) +
   theme(plot.title = element_text(hjust = 0.5))+
   theme(axis.text = element_text(size=5.5))
 ```
+```{r}
+unique(df$Category)
+```
+  
   - Developer.Id: 
   Como esta variable tiene mucho valores unicos lo analizo en un dataframe aparte.
   Sumo la cantidad de apps por developer y grafico la distribucion para saber si hay "monopolios" o son muchos "pequeños productores" de apps
@@ -224,10 +274,10 @@ dev %>% filter(cant.apps>24) %>% summarise(total.apps=sum(cant.apps))
 
 library(ggplot2)
 
-ggplot(dev %>% filter(cant.apps<=5))+
+ggplot(dev %>% filter(cant.apps<=10))+
   geom_histogram(aes(x=cant.apps))
 
-ggplot(dev %>% filter(cant.apps>5))+
+ggplot(dev %>% filter(cant.apps>10))+
   geom_histogram(aes(x=cant.apps))
 
 s<-summary(dev$cant.apps)
@@ -245,6 +295,8 @@ ggplot(dev)+
   scale_y_continuous(labels = scales::comma)+
   theme(plot.title = element_text(hjust = 0.5))+
   theme(axis.text = element_text(size=11))
+
+unique(dev$cant.apps)
 
 ```
 
@@ -292,8 +344,10 @@ ggplot(df, aes(x=as.factor(Minimum.Installs), y=Rating.Count))+
   theme_classic()+
   theme(axis.text = element_text(size=7))+
   scale_y_continuous(labels = scales::comma)+
-  labs(title='Media y Mediana de cantidad de rating por instalaciones', x='Minimum Installs', y='Raiting Count')+
+  labs(title='Media y Mediana de cantidad de rating por instalaciones', x='Instalaciones', y='Raiting Count')+
   theme(plot.title = element_text(hjust = 0.5))
+  
+
   
 ```
 
@@ -313,7 +367,7 @@ ggplot(df) +
   guide = "colourbar",
   aesthetics = "fill")+
   theme_classic()+
-  labs(title='Rating y Last Updates', x='Rating', y='Last Updated')+
+  labs(title='Installs y Last Updated', x='Installs ', y='Last Updated')+
   theme(plot.title = element_text(hjust = 0.5))+
   theme(axis.text = element_text(size=9))+
   guides(fill = guide_legend(title = "Cantidad"))
@@ -327,8 +381,9 @@ ggplot(df) +
 
 - Matriz de correlaciones para variables numéricas
 ```{r}
+df_num2 <- df_num %>% select(-c(Minimum.Installs, Rating.Count))
 GGally::ggcorr(
-  df_num, method=c("pairwise","spearman"), low="#0E5486", mid="#EEEEEE", high="#008037", label=T, hjust=1, label_size=2, layout.exp=10, size=3)
+  df_num2, method=c("pairwise","spearman"), low="#0E5486", mid="#EEEEEE", high="#008037", label=T, hjust=1, label_size=2, layout.exp=10, size=3)
 ```
 ```{r}
 library(minerva)
@@ -386,15 +441,20 @@ Correlaciones entre numerica y categoricas:
     - Content.Rating
   - Con otras variables
 
--------------- Particion Train y test ------------------------------------------
+----------------------Dataset para predecir ------------------------------------
+
+Juntar numericas y categoricas en un dataset
+
+Eliminimar avariable Minimum.Installs y App.id
 
 ```{r}
-#Particionar la base en entrenamiento y testeo
-install.packages('caret')
-library(caret)
-set.seed(9);particion=createDataPartition(y=df$Rating,p=0.8, list=F)
-
-train = df[particion,] 
-test = df[-particion,]
+df_FE <- df_num %>% select(-Minimum.Installs)
+df_FE <- df_FE %>% mutate(Category=df$Category, Minimum.Andorid=df$Minimum.Android, Developer.Id=df$Developer.Id, Content.Rating=df$Content.Rating)
 ```
 
+Exportar dataset
+
+```{r}
+setwd("/Users/camilacollado/Desktop/Análisis\ Predictivo/Final")
+write.csv(df_FE,"GooglePlayStoreFE.csv", row.names = TRUE)
+```
