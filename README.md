@@ -2,9 +2,9 @@
 Materia de la Licenciatura Analítica Empresarial y Social del Instituto Teconológico de Buenos Aires (ITBA)
 
 ## Modelo predictivo (examen final)
-+ [Presentación]()
-+ [Modelos predictivos]()
-+ [Dataset]()
++ [Presentación](https://github.com/camicollado/Analisis-Predictivo/blob/5cd6e3ec84e786e6ec1bd60fcdea04efe3550878/Final.pdf)
++ [Modelos regresión]()
++ [Modelos clasificación]()
 
 Otros scripts: [Limpieza del dataset](https://github.com/camicollado/Analisis-Predictivo/blob/c0953202fd073b19642bb744c4b826827492771f/GooglePlayStoreLimpieza.Rmd) y [EDA (actualizado)](https://github.com/camicollado/Analisis-Predictivo/blob/c5249c63c39211f668923549f2a6c35404a3fd4c/GooglePlayStoreEDA.Rmd)
 
